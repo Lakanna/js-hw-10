@@ -1,8 +1,11 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
 const elements = {
   btnStartTimer: document.querySelector('button[data-start]'),
+  btnStopTimer: document.querySelector('button[data-stop]'),
   fieldDays: document.querySelector('span[data-days]'),
   fieldHours: document.querySelector('span[data-hours]'),
   fieldMinutes: document.querySelector('span[data-minutes]'),
@@ -12,6 +15,7 @@ const elements = {
 
 let userSelectedDate = 0;
 let currentTime = Date.now();
+let setId = 0;
 
 const options = {
   enableTime: true,
@@ -24,7 +28,10 @@ const options = {
     console.log(differTime);
 
     if (differTime <= 0) {
-      alert('Please choose a date in the future');
+      iziToast.warning({
+        title: 'Caution',
+        message: 'Please choose a date in the future',
+      });
       elements.btnStartTimer.disabled = true;
     } else {
       elements.btnStartTimer.disabled = false;
@@ -35,9 +42,23 @@ const options = {
 flatpickr('input#datetime-picker', options);
 
 elements.btnStartTimer.addEventListener('click', handlerStartTimer);
+elements.btnStopTimer.addEventListener('click', handlerStopTimer);
+
+function handlerStopTimer() {
+  clearInterval(setId);
+  const zeroValue = addLeadingZero(0);
+  elements.fieldDays.textContent = zeroValue;
+  elements.fieldHours.textContent = zeroValue;
+  elements.fieldMinutes.textContent = zeroValue;
+  elements.fieldSeconds.textContent = zeroValue;
+  elements.btnStartTimer.disabled = false;
+  elements.inputDate.disabled = false;
+}
 
 function handlerStartTimer() {
-  const settimeId = setInterval(getTime, 1000);
+  setId = setInterval(getTime, 1000);
+  elements.btnStartTimer.disabled = true;
+  elements.inputDate.disabled = true;
 }
 
 function getTime() {
@@ -49,7 +70,7 @@ function getTime() {
 
   let restOfTime = convertMs(differTime);
 
-  elements.fieldDays.textContent = restOfTime.days;
+  elements.fieldDays.textContent = addLeadingZero(restOfTime.days);
   elements.fieldHours.textContent = addLeadingZero(restOfTime.hours);
   elements.fieldMinutes.textContent = addLeadingZero(restOfTime.minutes);
   elements.fieldSeconds.textContent = addLeadingZero(restOfTime.seconds);
