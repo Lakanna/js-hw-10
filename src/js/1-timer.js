@@ -11,6 +11,7 @@ const elements = {
   fieldMinutes: document.querySelector('span[data-minutes]'),
   fieldSeconds: document.querySelector('span[data-seconds]'),
   inputDate: document.querySelector('#datetime-picker'),
+  greetText: document.querySelector('.greeting-text'),
 };
 
 let userSelectedDate = 0;
@@ -56,6 +57,7 @@ function handlerStopTimer() {
   elements.btnStartTimer.disabled = false;
   elements.inputDate.disabled = false;
   elements.btnStopTimer.disabled = true;
+  elements.greetText.textContent = `Let's try it!😎`;
 }
 
 function handlerStartTimer() {
@@ -63,12 +65,17 @@ function handlerStartTimer() {
   elements.btnStartTimer.disabled = true;
   elements.inputDate.disabled = true;
   elements.btnStopTimer.disabled = false;
+  elements.greetText.textContent = 'Good job!👍';
 }
 
 function getTime() {
   let currentTime = Date.now();
   let differTime = userSelectedDate - currentTime;
   if (differTime <= 0) {
+    elements.btnStartTimer.disabled = false;
+    elements.inputDate.disabled = false;
+    elements.btnStopTimer.disabled = true;
+    elements.greetText.textContent = `Let's try it!😎`;
     return;
   }
 

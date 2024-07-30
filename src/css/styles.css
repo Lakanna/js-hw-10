@@ -21,7 +21,9 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
-
+h1 {
+  text-align: center;
+}
 .input-style {
   display: flex;
   align-items: center;
@@ -105,6 +107,14 @@
   gap: 15px;
 }
 
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  margin-top: 20px;
+}
+
 fieldset {
   width: 250px;
   display: flex;
@@ -125,4 +135,10 @@ input[name='delay'] {
   height: 35px;
   width: 278px;
   padding: 2px 12px;
+}
+
+.greeting-text {
+  font-size: 30px;
+  padding-top: 15px;
+  color: #055e08;
 }
