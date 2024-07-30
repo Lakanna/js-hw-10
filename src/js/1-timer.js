@@ -31,6 +31,8 @@ const options = {
       iziToast.warning({
         title: 'Caution',
         message: 'Please choose a date in the future',
+        color: 'red',
+        position: 'topCenter',
       });
       elements.btnStartTimer.disabled = true;
     } else {
@@ -53,12 +55,14 @@ function handlerStopTimer() {
   elements.fieldSeconds.textContent = zeroValue;
   elements.btnStartTimer.disabled = false;
   elements.inputDate.disabled = false;
+  elements.btnStopTimer.disabled = true;
 }
 
 function handlerStartTimer() {
   setId = setInterval(getTime, 1000);
   elements.btnStartTimer.disabled = true;
   elements.inputDate.disabled = true;
+  elements.btnStopTimer.disabled = false;
 }
 
 function getTime() {

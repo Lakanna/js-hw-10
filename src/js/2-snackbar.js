@@ -1,21 +1,45 @@
-import flatpickr from 'flatpickr';
-import 'flatpickr/dist/flatpickr.min.css';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
 const elements = {
   form: document.querySelector('.js-form'),
   btnSubmit: document.querySelector('button'),
 };
 
-console.dir(elements.form);
-
-elements.form.addEventListener('click', handlerFormClick);
 elements.form.addEventListener('submit', handlerSubmit);
 
 function handlerSubmit(evn) {
-  evn.preventDefault;
-  console.log(evn.target);
-}
+  evn.preventDefault();
 
-function handlerFormClick(evn) {
-  console.log('click', evn.target);
+  const { delay, state } = evn.currentTarget.elements;
+  const promisDelay = delay.value;
+  const promisState = state.value;
+
+  const promis = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (promisState === 'fulfilled') {
+        resolve(`${promisDelay}`);
+      } else {
+        reject(`${promisDelay}`);
+      }
+    }, `${promisDelay}`);
+  });
+
+  promis
+    .then(value =>
+      iziToast.show({
+        title: 'Hey',
+        message: `✅ Fulfilled promise in ${value}ms`,
+        color: 'green',
+        position: 'topCenter',
+      })
+    )
+    .catch(error =>
+      iziToast.show({
+        title: 'Hey',
+        message: `❌ Rejected promise in ${error}ms`,
+        color: 'red',
+        position: 'topCenter',
+      })
+    );
 }
